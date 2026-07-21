@@ -2,6 +2,7 @@ const MEKO_CONFIG = {
   siteName: 'MEKO',
   siteTagline: 'Натяжные потолки',
   siteUrl: 'https://mekopotolki.ru',
+  githubPagesBase: '/meko-potolki/',
   phone: '+79528495584',
   phoneDisplay: '+7 (952) 849-55-84',
   email: 'meko.krd@yandex.com',

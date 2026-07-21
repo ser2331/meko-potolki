@@ -1,16 +1,40 @@
+function getSiteRoot() {
+  if (typeof MEKO_CONFIG !== 'undefined' && window.location.hostname.endsWith('.github.io')) {
+    return MEKO_CONFIG.githubPagesBase || '/';
+  }
+  return '/';
+}
+
 function getBasePath() {
   const base = document.body.dataset.base;
   if (base !== undefined) return base;
-  const depth = (window.location.pathname.match(/\//g) || []).length;
+
   const isNested = /\/(uslugi|portfolio|blog)\//.test(window.location.pathname);
   return isNested ? '../' : '';
 }
 
 function navHref(href, base) {
-  if (href.startsWith('http') || href === '/') {
-    return href === '/' ? base || '/' : href;
+  const root = getSiteRoot();
+
+  if (href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('viber:')) {
+    return href;
   }
-  return `${base}${href.replace(/^\//, '')}`;
+
+  if (href.startsWith('/')) {
+    return `${root.replace(/\/$/, '')}${href}`;
+  }
+
+  return `${base || ''}${href}`;
+}
+
+function fixPageLinks() {
+  const root = getSiteRoot().replace(/\/$/, '');
+
+  document.querySelectorAll('a[href^="/"]').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('//')) return;
+    link.setAttribute('href', `${root}${href}`);
+  });
 }
 
 function navIcon(name) {
@@ -154,4 +178,5 @@ function renderSiteFooter() {
 function renderLayout() {
   renderSiteHeader();
   renderSiteFooter();
+  fixPageLinks();
 }

@@ -1,6 +1,8 @@
 const MEKO_CONFIG = {
   siteUrl: 'https://mekopotolki.ru',
+  githubPagesUrl: 'https://ser2331.github.io/meko-potolki/',
   githubPagesBase: '/meko-potolki/',
+  ogImage: 'https://ser2331.github.io/meko-potolki/assets/images/og-image.jpg',
   phone: '+79528495584',
   phoneDisplay: '+7 (952) 849-55-84',
   email: 'meko.krd@yandex.com',

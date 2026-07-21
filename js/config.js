@@ -52,3 +52,5 @@ const MEKO_CONFIG = {
     { id: 'kontakty', label: 'Контакты', href: '/kontakty.html', icon: 'pin' },
   ],
 };
+
+document.documentElement.classList.add('is-loading');

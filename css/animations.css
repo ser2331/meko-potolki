@@ -1,0 +1,225 @@
+/* ===== Page load ===== */
+body.is-loading #site-header:empty {
+  min-height: 132px;
+  background: linear-gradient(90deg, var(--color-bg) 0%, var(--color-bg-alt) 50%, var(--color-bg) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+body.is-loading main {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+body.is-ready main {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+/* ===== Skeleton shimmer ===== */
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton,
+.img-placeholder.skeleton {
+  position: relative;
+  overflow: hidden;
+  color: transparent !important;
+  user-select: none;
+  background: var(--color-bg-alt);
+}
+
+.skeleton::after,
+.img-placeholder.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: skeleton-wave 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-wave {
+  100% { transform: translateX(100%); }
+}
+
+.skeleton.is-loaded::after,
+.img-placeholder.skeleton.is-loaded::after {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ===== Lazy images ===== */
+.lazy-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+}
+
+.lazy-img-wrap .skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+.lazy-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.lazy-img.is-loaded {
+  opacity: 1;
+}
+
+.lazy-img-wrap .skeleton.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== Scroll reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal--delay-1 { transition-delay: 0.08s; }
+.reveal--delay-2 { transition-delay: 0.16s; }
+.reveal--delay-3 { transition-delay: 0.24s; }
+
+/* ===== Portfolio filter fade ===== */
+.portfolio-item {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.portfolio-item.is-filtered-out {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+  visibility: hidden;
+  max-height: 0;
+  aspect-ratio: unset;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.portfolio-grid.is-filtering {
+  min-height: 200px;
+}
+
+/* ===== Mobile nav slide ===== */
+.mobile-nav {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-block: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
+}
+
+.mobile-nav.is-open {
+  max-height: 480px;
+  opacity: 1;
+  padding-block: var(--space-md);
+}
+
+/* ===== Toast notifications ===== */
+.toast-container {
+  position: fixed;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  pointer-events: none;
+  max-width: min(360px, calc(100vw - 2rem));
+}
+
+.toast {
+  pointer-events: auto;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.toast--success {
+  background: var(--color-success);
+}
+
+.toast--error {
+  background: var(--color-error);
+}
+
+/* ===== Card & button polish ===== */
+.card {
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.main-nav__link,
+.mobile-nav__link,
+.portfolio-filter__btn {
+  transition: background var(--transition), border-color var(--transition), color var(--transition), transform 0.15s ease;
+}
+
+.portfolio-filter__btn:active {
+  transform: scale(0.97);
+}
+
+.form__input:focus,
+.form__textarea:focus {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  body.is-loading main,
+  body.is-ready main {
+    opacity: 1;
+    transform: none;
+  }
+}

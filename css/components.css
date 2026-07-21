@@ -280,15 +280,20 @@
 }
 
 .faq__answer {
-  display: none;
-  padding-bottom: var(--space-lg);
+  max-height: 0;
+  overflow: hidden;
+  padding-bottom: 0;
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   line-height: 1.7;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.35s ease;
 }
 
 .faq__item.is-open .faq__answer {
-  display: block;
+  max-height: 240px;
+  padding-bottom: var(--space-lg);
+  opacity: 1;
 }
 
 /* Form */
@@ -337,16 +342,22 @@
 }
 
 .form__success {
-  display: none;
-  padding: var(--space-md);
+  display: block;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
   background: #e8f5ee;
   color: var(--color-success);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
+  transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
 }
 
 .form__success.is-visible {
-  display: block;
+  opacity: 1;
+  max-height: 80px;
+  padding: var(--space-md);
 }
 
 /* Badge */
@@ -430,7 +441,7 @@
 
 /* Placeholder image */
 .img-placeholder {
-  background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-border) 100%);
+  background: var(--color-bg-alt);
   display: flex;
   align-items: center;
   justify-content: center;

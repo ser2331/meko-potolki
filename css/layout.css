@@ -245,14 +245,8 @@
 }
 
 .mobile-nav {
-  display: none;
   background: var(--color-white);
   border-bottom: 1px solid var(--color-border);
-  padding: var(--space-md);
-}
-
-.mobile-nav.is-open {
-  display: block;
 }
 
 .mobile-nav__list {

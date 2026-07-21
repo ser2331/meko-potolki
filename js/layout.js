@@ -29,10 +29,12 @@ function navHref(href, base) {
 
 function fixPageLinks() {
   const root = getSiteRoot().replace(/\/$/, '');
+  if (root === '') return;
 
   document.querySelectorAll('a[href^="/"]').forEach((link) => {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('//')) return;
+    if (href === root || href.startsWith(`${root}/`)) return;
     link.setAttribute('href', `${root}${href}`);
   });
 }

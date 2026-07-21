@@ -118,12 +118,21 @@ function renderSiteHeader() {
       </div>
     </nav>
 
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация">
-      <ul class="mobile-nav__list">
-        ${cfg.nav.map((item) => `<li><a href="${navHref(item.href, base)}" class="mobile-nav__link">${item.label}</a></li>`).join('')}
-        <li><a href="tel:${cfg.phone}" class="mobile-nav__link" data-phone="text">${cfg.phoneDisplay}</a></li>
-      </ul>
-    </nav>
+    <div class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" aria-hidden="true">
+      <div class="mobile-nav__panel">
+        <div class="mobile-nav__head">
+          <span class="mobile-nav__brand">MEKO</span>
+          <button type="button" class="mobile-nav__close" aria-label="Закрыть меню">&times;</button>
+        </div>
+        <ul class="mobile-nav__list">
+          ${cfg.nav.map((item) => `<li><a href="${navHref(item.href, base)}" class="mobile-nav__link">${item.label}</a></li>`).join('')}
+        </ul>
+        <div class="mobile-nav__footer">
+          <a href="tel:${cfg.phone}" class="btn btn--primary btn--full btn--lg" data-phone="text">${cfg.phoneDisplay}</a>
+          <a href="${navHref('/kontakty.html#zayavka', base)}" class="btn btn--navy btn--full">Вызов замерщика</a>
+        </div>
+      </div>
+    </div>
   `;
 }
 

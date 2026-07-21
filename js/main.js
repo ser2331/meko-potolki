@@ -114,27 +114,46 @@ function showToast(message, type = 'success') {
 }
 
 function initMobileMenu() {
-  document.addEventListener('click', (e) => {
-    const burger = e.target.closest('.burger');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (!mobileNav) return;
+
+  const openMenu = () => {
+    const burger = document.querySelector('.burger');
     if (!burger) return;
+    burger.setAttribute('aria-expanded', 'true');
+    mobileNav.classList.add('is-open');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+    document.body.style.overflow = 'hidden';
+  };
 
-    const mobileNav = document.getElementById('mobile-nav');
-    if (!mobileNav) return;
+  const closeMenu = () => {
+    const burger = document.querySelector('.burger');
+    if (burger) burger.setAttribute('aria-expanded', 'false');
+    mobileNav.classList.remove('is-open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+  };
 
-    const isOpen = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', String(!isOpen));
-    mobileNav.classList.toggle('is-open', !isOpen);
-    document.body.style.overflow = isOpen ? '' : 'hidden';
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.burger')) {
+      const burger = e.target.closest('.burger');
+      const isOpen = burger.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeMenu();
+      else openMenu();
+      return;
+    }
+
+    if (e.target.closest('.mobile-nav__close') || e.target.closest('.mobile-nav__link')) {
+      closeMenu();
+    }
   });
 
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('.mobile-nav__link');
-    if (!link) return;
-    const burger = document.querySelector('.burger');
-    const mobileNav = document.getElementById('mobile-nav');
-    if (burger) burger.setAttribute('aria-expanded', 'false');
-    if (mobileNav) mobileNav.classList.remove('is-open');
-    document.body.style.overflow = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+      closeMenu();
+    }
   });
 }
 

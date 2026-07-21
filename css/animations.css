@@ -96,19 +96,11 @@ body.is-ready main {
   min-height: 200px;
 }
 
-/* ===== Mobile nav slide ===== */
-.mobile-nav {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  padding-block: 0;
-  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
-}
-
-.mobile-nav.is-open {
-  max-height: 480px;
-  opacity: 1;
-  padding-block: var(--space-md);
+/* ===== Mobile nav ===== */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav__panel {
+    transition: none;
+  }
 }
 
 /* ===== Toast notifications ===== */

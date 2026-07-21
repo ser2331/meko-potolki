@@ -13,19 +13,31 @@ function initCalculator() {
     tape: calc.querySelector('[name="tape"]'),
     price: calc.querySelector('.calculator__price-value'),
     summary: calc.querySelector('.calculator__summary'),
+    area: calc.querySelector('.calculator__area-value'),
   };
 
-  const counters = calc.querySelectorAll('[data-counter]');
-  counters.forEach((wrap) => {
+  const extrasToggle = calc.querySelector('.calculator__extras-toggle');
+  const extrasPanel = calc.querySelector('.calculator__extras-panel');
+
+  extrasToggle?.addEventListener('click', () => {
+    const isOpen = extrasToggle.getAttribute('aria-expanded') === 'true';
+    extrasToggle.setAttribute('aria-expanded', String(!isOpen));
+    extrasPanel?.classList.toggle('is-open', !isOpen);
+  });
+
+  calc.querySelectorAll('[data-counter]').forEach((wrap) => {
     const input = wrap.querySelector('input');
+    const max = Number(wrap.dataset.max || input.max || 99);
     const minus = wrap.querySelector('[data-action="minus"]');
     const plus = wrap.querySelector('[data-action="plus"]');
+
     minus?.addEventListener('click', () => {
       input.value = Math.max(0, Number(input.value) - 1);
       update();
     });
+
     plus?.addEventListener('click', () => {
-      input.value = Number(input.value) + 1;
+      input.value = Math.min(max, Number(input.value) + 1);
       update();
     });
   });
@@ -68,9 +80,10 @@ function initCalculator() {
       + tape * cfg.tapePerMeter
     );
 
+    if (els.area) els.area.textContent = area.toFixed(1);
     if (els.price) els.price.textContent = total.toLocaleString('ru-RU');
     if (els.summary) {
-      els.summary.textContent = `Площадь ${area.toFixed(1)} м² × ${sqmPrice} ₽, углы: ${corners}, трубы: ${pipes}, свет: ${lights}, лента: ${tape} м.`;
+      els.summary.textContent = `${area.toFixed(1)} м² × ${sqmPrice} ₽ + опции`;
     }
   }
 }

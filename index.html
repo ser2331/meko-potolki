@@ -173,20 +173,21 @@
             <p class="calculator__subtitle">Укажите размеры помещения и дополнительные опции</p>
           </div>
           <div class="calculator__body">
-            <div>
-              <p class="calculator__group-title">Помещение</p>
+            <div class="calculator__section calculator__section--room">
+              <p class="calculator__group-title">1. Размеры помещения</p>
               <div class="calculator__row">
                 <div class="calculator__field">
                   <label for="calc-width">Ширина, м</label>
-                  <input type="number" id="calc-width" name="width" min="1" max="20" step="0.1" value="4">
+                  <input type="number" id="calc-width" name="width" min="1" max="20" step="0.1" value="4" inputmode="decimal">
                 </div>
                 <div class="calculator__field">
                   <label for="calc-length">Длина, м</label>
-                  <input type="number" id="calc-length" name="length" min="1" max="20" step="0.1" value="5">
+                  <input type="number" id="calc-length" name="length" min="1" max="20" step="0.1" value="5" inputmode="decimal">
                 </div>
               </div>
+              <p class="calculator__area">Площадь: <strong class="calculator__area-value">20</strong> м²</p>
               <div class="calculator__field">
-                <label for="calc-texture">Тип полотна</label>
+                <label for="calc-texture">2. Тип полотна</label>
                 <select id="calc-texture" name="texture">
                   <option value="matte_white">Матовый белый — 400 ₽/м²</option>
                   <option value="matte_color">Матовый цветной — 450 ₽/м²</option>
@@ -197,47 +198,55 @@
                 </select>
               </div>
             </div>
-            <div>
-              <p class="calculator__group-title">Дополнительно</p>
-              <div class="calculator__field">
-                <label>Углы (шт.)</label>
-                <div class="calculator__counter" data-counter>
-                  <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
-                  <input type="number" name="corners" min="0" max="20" value="4" readonly>
-                  <button type="button" data-action="plus" aria-label="Увеличить">+</button>
-                </div>
-              </div>
-              <div class="calculator__field">
-                <label>Трубы / выступы (шт.)</label>
-                <div class="calculator__counter" data-counter>
-                  <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
-                  <input type="number" name="pipes" min="0" max="10" value="0" readonly>
-                  <button type="button" data-action="plus" aria-label="Увеличить">+</button>
-                </div>
-              </div>
-              <div class="calculator__field">
-                <label>Встроенные светильники (шт.)</label>
-                <div class="calculator__counter" data-counter>
-                  <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
-                  <input type="number" name="lights" min="0" max="30" value="0" readonly>
-                  <button type="button" data-action="plus" aria-label="Увеличить">+</button>
-                </div>
-              </div>
-              <div class="calculator__field">
-                <label>Световая лента (м)</label>
-                <div class="calculator__counter" data-counter>
-                  <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
-                  <input type="number" name="tape" min="0" max="50" value="0" readonly>
-                  <button type="button" data-action="plus" aria-label="Увеличить">+</button>
-                </div>
-              </div>
-            </div>
-            <div class="calculator__result">
+
+            <div class="calculator__section calculator__section--result">
               <p class="calculator__price-label">Примерная стоимость</p>
               <p class="calculator__price-value">0</p>
               <p class="calculator__summary">Укажите параметры для расчёта</p>
               <a href="kontakty.html#zayavka" class="btn btn--primary btn--full" data-track="calc-cta">Заказать точный замер бесплатно</a>
               <p class="calculator__note">* Цена ориентировочная. Финальная стоимость зависит от сложности монтажа и выбранных материалов.</p>
+            </div>
+
+            <div class="calculator__section calculator__section--extras">
+              <p class="calculator__group-title calculator__group-title--desktop">3. Дополнительные опции</p>
+              <button type="button" class="calculator__extras-toggle" aria-expanded="false" aria-controls="calc-extras">
+                <span>3. Дополнительные опции</span>
+                <span class="calculator__extras-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="calculator__extras-panel" id="calc-extras">
+                <div class="calculator__field">
+                  <label>Углы</label>
+                  <div class="calculator__counter" data-counter data-max="20">
+                    <button type="button" data-action="minus" aria-label="Уменьшить количество углов">−</button>
+                    <input type="number" name="corners" min="0" max="20" value="4" readonly aria-label="Количество углов">
+                    <button type="button" data-action="plus" aria-label="Увеличить количество углов">+</button>
+                  </div>
+                </div>
+                <div class="calculator__field">
+                  <label>Трубы / выступы</label>
+                  <div class="calculator__counter" data-counter data-max="10">
+                    <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
+                    <input type="number" name="pipes" min="0" max="10" value="0" readonly aria-label="Количество труб">
+                    <button type="button" data-action="plus" aria-label="Увеличить">+</button>
+                  </div>
+                </div>
+                <div class="calculator__field">
+                  <label>Светильники</label>
+                  <div class="calculator__counter" data-counter data-max="30">
+                    <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
+                    <input type="number" name="lights" min="0" max="30" value="0" readonly aria-label="Количество светильников">
+                    <button type="button" data-action="plus" aria-label="Увеличить">+</button>
+                  </div>
+                </div>
+                <div class="calculator__field">
+                  <label>Световая лента, м</label>
+                  <div class="calculator__counter" data-counter data-max="50">
+                    <button type="button" data-action="minus" aria-label="Уменьшить">−</button>
+                    <input type="number" name="tape" min="0" max="50" value="0" readonly aria-label="Длина световой ленты">
+                    <button type="button" data-action="plus" aria-label="Увеличить">+</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

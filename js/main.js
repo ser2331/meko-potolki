@@ -2,16 +2,38 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('is-loading');
 
   renderLayout();
+  injectFloatingUi();
+  injectBreadcrumbSchema();
+  initAnalytics();
   initMobileMenu();
+  initStickyBar();
   initFaq();
   initContactForm();
   initPortfolioFilter();
   initLazyMedia();
   initSkeletons();
   initScrollReveal();
+  initIcons();
+  initCountUp();
+  if (typeof initCalculator === 'function') initCalculator();
+  if (typeof initLightbox === 'function') initLightbox();
   initPageReady();
   injectConfig();
 });
+
+function initStickyBar() {
+  const bar = document.getElementById('mobile-sticky-bar');
+  if (!bar) return;
+
+  document.body.classList.add('has-sticky-bar');
+
+  const toggle = () => {
+    bar.classList.toggle('is-visible', window.scrollY > 320);
+  };
+
+  toggle();
+  window.addEventListener('scroll', toggle, { passive: true });
+}
 
 function initPageReady() {
   requestAnimationFrame(() => {
@@ -23,69 +45,12 @@ function initPageReady() {
 }
 
 function initLazyMedia() {
-  document.querySelectorAll('img[data-src]').forEach((img) => {
-    wrapLazyImage(img);
-  });
-
-  document.querySelectorAll('img:not([data-src])').forEach((img) => {
-    if (!img.closest('header') && !img.hasAttribute('loading')) {
+  document.querySelectorAll('img:not([loading])').forEach((img) => {
+    if (!img.closest('header')) {
       img.loading = 'lazy';
       img.decoding = 'async';
     }
   });
-
-  if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('img[data-src]').forEach((img) => loadLazyImage(img));
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      loadLazyImage(entry.target);
-      observer.unobserve(entry.target);
-    });
-  }, { rootMargin: '120px' });
-
-  document.querySelectorAll('img[data-src]').forEach((img) => observer.observe(img));
-}
-
-function wrapLazyImage(img) {
-  if (img.closest('.lazy-img-wrap')) return;
-
-  const wrap = document.createElement('div');
-  wrap.className = 'lazy-img-wrap';
-  if (img.classList.contains('card__image')) wrap.style.aspectRatio = '16 / 10';
-  if (img.closest('.portfolio-item')) wrap.style.aspectRatio = '1';
-
-  const skeleton = document.createElement('div');
-  skeleton.className = 'skeleton';
-  skeleton.setAttribute('aria-hidden', 'true');
-
-  img.classList.add('lazy-img');
-  img.parentNode.insertBefore(wrap, img);
-  wrap.appendChild(skeleton);
-  wrap.appendChild(img);
-}
-
-function loadLazyImage(img) {
-  const src = img.dataset.src;
-  if (!src || img.dataset.loaded === 'true') return;
-
-  img.dataset.loaded = 'true';
-  img.src = src;
-
-  img.addEventListener('load', () => {
-    img.classList.add('is-loaded');
-    const skeleton = img.parentElement?.querySelector('.skeleton');
-    if (skeleton) skeleton.classList.add('is-hidden');
-  }, { once: true });
-
-  img.addEventListener('error', () => {
-    img.classList.add('is-loaded');
-    const skeleton = img.parentElement?.querySelector('.skeleton');
-    if (skeleton) skeleton.classList.add('is-hidden');
-  }, { once: true });
 }
 
 function initSkeletons() {
@@ -101,7 +66,7 @@ function initSkeletons() {
 function initScrollReveal() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const targets = document.querySelectorAll('.section, .card, .advantage-card, .step-card, .review, .info-box');
+  const targets = document.querySelectorAll('.section, .card, .advantage-card, .step-card, .review, .info-box, .compare-card, .district-card');
   targets.forEach((el, i) => {
     el.classList.add('reveal');
     if (i % 3 === 1) el.classList.add('reveal--delay-1');
@@ -194,13 +159,29 @@ function initFaq() {
 
 function initContactForm() {
   document.querySelectorAll('.js-contact-form').forEach((form) => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const data = {
+        name: form.querySelector('[name="name"]')?.value?.trim(),
+        phone: form.querySelector('[name="phone"]')?.value?.trim(),
+        message: form.querySelector('[name="message"]')?.value?.trim(),
+      };
 
       const success = form.querySelector('.form__success');
       if (success) success.classList.add('is-visible');
 
-      showToast('Спасибо! Мы перезвоним вам в ближайшее время.', 'success');
+      try {
+        const sent = await sendTelegramLead(data);
+        showToast(
+          sent ? 'Заявка отправлена! Перезвоним в ближайшее время.' : 'Заявка принята! Мы свяжемся с вами в ближайшее время.',
+          'success'
+        );
+        trackFormSubmit(form.getAttribute('aria-label') || 'contact');
+      } catch {
+        showToast('Заявка принята! Мы свяжемся с вами в ближайшее время.', 'success');
+      }
+
       form.reset();
 
       setTimeout(() => {

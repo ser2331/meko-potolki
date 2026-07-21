@@ -6,6 +6,7 @@
 @import 'components.css';
 @import 'pages.css';
 @import 'animations.css';
+@import 'ui-extras.css';
 
 body {
   font-family: var(--font-body);

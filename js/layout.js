@@ -9,7 +9,7 @@ function getBasePath() {
   const base = document.body.dataset.base;
   if (base !== undefined) return base;
 
-  const isNested = /\/(uslugi|portfolio|blog)\//.test(window.location.pathname);
+  const isNested = /\/(uslugi|portfolio|blog|raiony)\//.test(window.location.pathname);
   return isNested ? '../' : '';
 }
 
@@ -88,7 +88,6 @@ function renderSiteHeader() {
         <div class="header-main__contacts">
           <div class="header-main__phones">
             <a href="tel:${cfg.phone}" class="header-main__phone" data-phone="text">${cfg.phoneDisplay}</a>
-            <a href="tel:${cfg.phone}" class="header-main__phone" data-phone="text">${cfg.phoneDisplay}</a>
           </div>
           <div class="header-main__messengers">
             <a href="viber://chat?number=${cfg.viber}" class="messenger messenger--viber" aria-label="Viber">V</a>
@@ -99,7 +98,7 @@ function renderSiteHeader() {
 
         <div class="header-main__actions">
           <a href="${navHref('/kontakty.html#zayavka', base)}" class="btn btn--navy">Вызов замерщика</a>
-          <a href="${navHref('/tseny.html', base)}" class="btn btn--calc" title="Калькулятор — скоро">
+          <a href="${navHref('/#calc', base)}" class="btn btn--calc" title="Калькулятор стоимости">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2M12 10h2M16 10h0M8 14h2M12 14h2M16 14h0M8 18h2M12 18h4"/></svg>
             Калькулятор
           </a>
@@ -170,7 +169,7 @@ function renderSiteFooter() {
         </div>
       </div>
       <div class="footer__bottom">
-        <p>© ${cfg.yearFounded}–2026 MEKO. Натяжные потолки в Краснодаре.</p>
+        <p>© ${cfg.yearFounded}–${new Date().getFullYear()} MEKO. Натяжные потолки в Краснодаре.</p>
         <p>Все права защищены</p>
       </div>
     </div>

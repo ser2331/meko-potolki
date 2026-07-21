@@ -1,0 +1,42 @@
+---
+description: Контекст проекта MEKO — лендинг установки натяжных потолков в Краснодаре
+alwaysApply: true
+---
+
+# MEKO — проектный контекст
+
+## Что это
+Сайт-визитка компании **MEKO** (не MECO!) — установка натяжных потолков в **Краснодаре**.
+Референс дизайна: mekopotolki.ru. Главная цель: **максимальный SEO**.
+
+## Бренд
+- Название: **MEKO** (с буквой K)
+- Логотип: `https://mekopotolki.ru/wp-content/uploads/2025/02/logo.png`
+- Цвета: navy `#1a4480`, красный `#e31e24`, тёмно-серый для кнопки калькулятора
+- Шрифты: **Montserrat** (заголовки, кнопки), **Open Sans** (текст)
+
+## Стек
+- HTML5 + CSS3 + vanilla JS
+- Header/footer через `js/layout.js` + `js/config.js` (MEKO_CONFIG)
+- Калькулятор — отложен на этап 2
+
+## Структура header (как у референса)
+1. Top-bar: соцсети (VK, IG, FB, OK)
+2. Header-main: логотип, телефоны, мессенджеры, кнопки «Вызов замерщика» + «Калькулятор»
+3. Main-nav: синяя полоса с иконками
+
+## Контакты (config.js)
+- Телефон: +7 (952) 849-55-84
+- Email: meko.krd@yandex.com
+- Домен: mekopotolki.ru
+
+## При добавлении страницы
+1. `data-page` на `<body>` для активного пункта меню
+2. `<header id="site-header">` + `<footer id="site-footer">`
+3. Подключить config.js, layout.js, main.js
+4. Обновить sitemap.xml
+
+## Чего не делать без запроса
+- React, TypeScript, Python
+- Калькулятор (пока заглушка)
+- Писать MECO вместо MEKO
